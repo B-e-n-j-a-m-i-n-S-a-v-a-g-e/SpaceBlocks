@@ -1,0 +1,5 @@
+C:\Users\Benjamin\Documents\Visual Studio 2015\Projects\CanvasGame2\CanvasGame2\bin\CanvasGame2.dll.config
+C:\Users\Benjamin\Documents\Visual Studio 2015\Projects\CanvasGame2\CanvasGame2\bin\CanvasGame2.dll
+C:\Users\Benjamin\Documents\Visual Studio 2015\Projects\CanvasGame2\CanvasGame2\bin\CanvasGame2.pdb
+C:\Users\Benjamin\Documents\Visual Studio 2015\Projects\CanvasGame2\CanvasGame2\obj\Debug\CanvasGame2.dll
+C:\Users\Benjamin\Documents\Visual Studio 2015\Projects\CanvasGame2\CanvasGame2\obj\Debug\CanvasGame2.pdb
