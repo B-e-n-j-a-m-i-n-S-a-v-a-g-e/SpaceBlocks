@@ -10,6 +10,7 @@ var Playground = (function () {
         this.height = options.screen.height;
         this.gunStep = perOfNum(1.7, this.width);
         this.bulletStep = perOfNum(2, this.height);
+        this.bulletAccel = 1.1;
         this.starStep = perOfNum(4, this.height);
         this.createCanvas();
         this.createStats();
@@ -103,7 +104,7 @@ var Playground = (function () {
     };
     Playground.prototype.drawBullets = function () {
         var bullets = this.bullets, bulletsLen = this.bulletsLen;
-        var bullet, bulletStep = this.bulletStep;
+        var bullet, bulletStep = this.bulletStep, bulletAccel = this.bulletAccel;
         for (var i = 0; i < bulletsLen; ++i) {
             bullet = bullets[i];
             // Skip bullets with status Hit or Miss
@@ -118,6 +119,7 @@ var Playground = (function () {
             }
             // Move and draw bullet
             bullet.y -= bulletStep;
+            bulletStep *= 1.1;
             bullet.draw();
         }
     };

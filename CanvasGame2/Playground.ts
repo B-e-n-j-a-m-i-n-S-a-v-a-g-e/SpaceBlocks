@@ -16,6 +16,7 @@
     private bullets: Bullet[];
     private bulletsLen: number;
     private bulletStep: number;
+    private bulletAccel: number;
 
     private targets: Target[];
     private targetsLen: number;
@@ -34,6 +35,7 @@
 
         this.gunStep = perOfNum(1.7, this.width);
         this.bulletStep = perOfNum(2, this.height);
+        this.bulletAccel = 1.1;
         this.starStep = perOfNum(4, this.height);
 
         this.createCanvas();
@@ -198,7 +200,8 @@
             bulletsLen = this.bulletsLen;
 
         let bullet,
-            bulletStep = this.bulletStep;
+            bulletStep = this.bulletStep,
+            bulletAccel = this.bulletAccel;
 
         for (let i = 0; i < bulletsLen; ++i) {
 
@@ -218,6 +221,7 @@
 
             // Move and draw bullet
             bullet.y -= bulletStep;
+            bulletStep *= 1.1;
             bullet.draw();
         }
     }
