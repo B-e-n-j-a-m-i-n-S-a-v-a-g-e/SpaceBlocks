@@ -16,7 +16,9 @@
     private bullets: Bullet[];
     private bulletsLen: number;
     private bulletStep: number;
-    private bulletAccel: number;
+
+    private sideBullets: SideBullet[];
+    private sideBulletsLen: number;
 
     private targets: Target[];
     private targetsLen: number;
@@ -28,6 +30,7 @@
 
     private bing: Sound; 
     private explode: Sound;
+    private invincible: Sound;
 
     private stats: Stats;
 
@@ -38,16 +41,15 @@
 
         this.gunStep = perOfNum(1.7, this.width);
         this.bulletStep = perOfNum(2, this.height);
-        this.bulletAccel = 1.1;
         this.starStep = perOfNum(4, this.height);
 
         this.bing = new Sound("audio/bing.wav");
         this.explode = new Sound("audio/explode.wav");
+        this.invincible = new Sound("audio/invincible.wav");
 
         this.createCanvas();
         this.createStats();
         this.createGun();
-        this.createStars();
     }
 
     newGame(): void {
@@ -56,6 +58,9 @@
 
         this.bullets = [];
         this.bulletsLen = 0;
+
+        this.sideBullets = [];
+        this.sideBulletsLen = 0;
 
         this.targets = [];
         this.targetsLen = 0;
@@ -107,7 +112,7 @@
             this.ctx, x, y, width, height, this.options.gun);
     }
 
-    createBullet(): void {
+    createBullet(type: string): void {
 
         let gun = this.gun,
             bullets = this.bullets;
@@ -115,30 +120,19 @@
         let x = gun.x + gun.width / 2,
             y = gun.y,
             radius = perOfNum(1, this.width);
-
-        bullets.push(
-            new Bullet(this.ctx, x, y, radius, this.options.bullet)
-        );
-
-        this.bulletsLen = bullets.length;
-    }
-
-    createStars(): void {
-
-   /*     let stars = this.stars,
-            starsLen = this.starsLen;
-
-        let x = Math.random() * this.width,
-            y = Math.random() * this.height,
-            radius = perOfNum(1, this.width);
-
-        console.log(this.stars);
-
-        for (let i = 0; i < 100; ++i) {
-            stars.push(
-                new Star(this.ctx, x, y, radius, this.options.star)
+        
+        if (type === "regular") {
+            bullets.push(
+                new Bullet(this.ctx, x, y, radius, this.options.bullet)
             );
-        } */
+            this.bulletsLen = bullets.length;
+        } else if (type === "side") {
+
+            this.sideBullets.push(
+                new SideBullet(this.ctx, x, y, radius, this.options.bullet)
+            );
+            this.sideBulletsLen = this.sideBullets.length;
+        }
     }
 
     createTargets(): void {
@@ -186,6 +180,7 @@
 
         this.drawGun();
         this.drawBullets();
+        this.drawSideBullets();
         this.drawTargets();
         this.drawStats();
         this.drawStars();
@@ -206,8 +201,7 @@
             bulletsLen = this.bulletsLen;
 
         let bullet,
-            bulletStep = this.bulletStep,
-            bulletAccel = this.bulletAccel;
+            bulletStep = this.bulletStep;
 
         for (let i = 0; i < bulletsLen; ++i) {
 
@@ -230,6 +224,37 @@
             bulletStep *= 1.1;
             bullet.draw();
         }
+    }
+
+    drawSideBullets() {
+
+        let sidebullets = this.sideBullets;
+
+        let sideBullet,
+            bulletStep = this.bulletStep;
+
+        for (let i = 0; i < this.sideBullets.length; ++i) {
+
+            sideBullet = this.sideBullets[i];
+
+            // Skip bullets with status Hit or Miss
+            if (sideBullet.status === BulletStatus.Hit ||
+                sideBullet.status === BulletStatus.Miss) {
+                continue;
+            }
+
+            // Set bullet status to Miss if bullet out of canvas
+            if (sideBullet.y + sideBullet.radius <= 0) {
+                sideBullet.status = BulletStatus.Miss;
+                continue;
+            }
+
+            // Move and draw bullet
+            sideBullet.x -= bulletStep;
+            bulletStep *= 1.1;
+            sideBullet.draw();
+        }
+
     }
 
     drawTargets(): void {
@@ -265,8 +290,10 @@
                         --target.life;
                     }
                     else {
-                        this.bing.play();
-                        if (target.life !== 4) {
+                        if (target.life === 4) {
+                            this.invincible.play();                        
+                        } else {
+                            this.bing.play();
                             --target.life;
                         }
                     }

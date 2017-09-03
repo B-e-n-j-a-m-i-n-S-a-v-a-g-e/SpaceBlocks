@@ -10,19 +10,20 @@ var Playground = (function () {
         this.height = options.screen.height;
         this.gunStep = perOfNum(1.7, this.width);
         this.bulletStep = perOfNum(2, this.height);
-        this.bulletAccel = 1.1;
         this.starStep = perOfNum(4, this.height);
         this.bing = new Sound("audio/bing.wav");
         this.explode = new Sound("audio/explode.wav");
+        this.invincible = new Sound("audio/invincible.wav");
         this.createCanvas();
         this.createStats();
         this.createGun();
-        this.createStars();
     }
     Playground.prototype.newGame = function () {
         this.gameOver = false;
         this.bullets = [];
         this.bulletsLen = 0;
+        this.sideBullets = [];
+        this.sideBulletsLen = 0;
         this.targets = [];
         this.targetsLen = 0;
         this.closestTarget = null;
@@ -45,27 +46,17 @@ var Playground = (function () {
         var width = perOfNum(6, this.width), height = perOfNum(6, this.width), x = Math.round((this.width / 2) - (width / 2)), y = Math.round(stats.y - stats.fontSize - height);
         this.gun = new Gun(this.ctx, x, y, width, height, this.options.gun);
     };
-    Playground.prototype.createBullet = function () {
+    Playground.prototype.createBullet = function (type) {
         var gun = this.gun, bullets = this.bullets;
         var x = gun.x + gun.width / 2, y = gun.y, radius = perOfNum(1, this.width);
-        bullets.push(new Bullet(this.ctx, x, y, radius, this.options.bullet));
-        this.bulletsLen = bullets.length;
-    };
-    Playground.prototype.createStars = function () {
-        /*     let stars = this.stars,
-                 starsLen = this.starsLen;
-     
-             let x = Math.random() * this.width,
-                 y = Math.random() * this.height,
-                 radius = perOfNum(1, this.width);
-     
-             console.log(this.stars);
-     
-             for (let i = 0; i < 100; ++i) {
-                 stars.push(
-                     new Star(this.ctx, x, y, radius, this.options.star)
-                 );
-             } */
+        if (type === "regular") {
+            bullets.push(new Bullet(this.ctx, x, y, radius, this.options.bullet));
+            this.bulletsLen = bullets.length;
+        }
+        else if (type === "side") {
+            this.sideBullets.push(new SideBullet(this.ctx, x, y, radius, this.options.bullet));
+            this.sideBulletsLen = this.sideBullets.length;
+        }
     };
     Playground.prototype.createTargets = function () {
         var targets = this.targets, targetsLen = this.targetsLen, targetsInRow = 12;
@@ -93,6 +84,7 @@ var Playground = (function () {
         this.clear();
         this.drawGun();
         this.drawBullets();
+        this.drawSideBullets();
         this.drawTargets();
         this.drawStats();
         this.drawStars();
@@ -106,7 +98,7 @@ var Playground = (function () {
     };
     Playground.prototype.drawBullets = function () {
         var bullets = this.bullets, bulletsLen = this.bulletsLen;
-        var bullet, bulletStep = this.bulletStep, bulletAccel = this.bulletAccel;
+        var bullet, bulletStep = this.bulletStep;
         for (var i = 0; i < bulletsLen; ++i) {
             bullet = bullets[i];
             // Skip bullets with status Hit or Miss
@@ -123,6 +115,27 @@ var Playground = (function () {
             bullet.y -= bulletStep;
             bulletStep *= 1.1;
             bullet.draw();
+        }
+    };
+    Playground.prototype.drawSideBullets = function () {
+        var sidebullets = this.sideBullets;
+        var sideBullet, bulletStep = this.bulletStep;
+        for (var i = 0; i < this.sideBullets.length; ++i) {
+            sideBullet = this.sideBullets[i];
+            // Skip bullets with status Hit or Miss
+            if (sideBullet.status === BulletStatus.Hit ||
+                sideBullet.status === BulletStatus.Miss) {
+                continue;
+            }
+            // Set bullet status to Miss if bullet out of canvas
+            if (sideBullet.y + sideBullet.radius <= 0) {
+                sideBullet.status = BulletStatus.Miss;
+                continue;
+            }
+            // Move and draw bullet
+            sideBullet.x -= bulletStep;
+            bulletStep *= 1.1;
+            sideBullet.draw();
         }
     };
     Playground.prototype.drawTargets = function () {
@@ -145,8 +158,11 @@ var Playground = (function () {
                         --target.life;
                     }
                     else {
-                        this.bing.play();
-                        if (target.life !== 4) {
+                        if (target.life === 4) {
+                            this.invincible.play();
+                        }
+                        else {
+                            this.bing.play();
                             --target.life;
                         }
                     }

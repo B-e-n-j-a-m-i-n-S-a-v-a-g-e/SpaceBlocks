@@ -4,7 +4,9 @@ enum Key {
     Space = 32,
     Left = 37,
     Up = 38,
-    Right = 39
+    Right = 39,
+    A = 65,
+    D = 68
 }
 
 interface GameOptions {
@@ -130,7 +132,7 @@ class Game {
         clearInterval(this.fireId);
     }
 
-    startFire(): void {
+    startFire(type: string): void {
 
         if (this.fireId) {
             return;
@@ -138,13 +140,23 @@ class Game {
 
         let pg = this.playground;
 
-        // Create first bullet
-        pg.createBullet();
-        this.shoot.play();
+        if (type === "regular") {
 
-        // Create next bullets with interval
-        clearInterval(this.fireId);
-        this.fireId = setInterval(() => pg.createBullet(), this.options.delays.fire);
+            // Create first bullet
+            pg.createBullet("regular");
+
+            // Create next bullets with interval
+            clearInterval(this.fireId);
+            this.fireId = setInterval(() => pg.createBullet("regular"), this.options.delays.fire);
+        } else if (type === "side") {
+
+            pg.createBullet("side");
+
+            clearInterval(this.fireId);
+            this.fireId = setInterval(() => pg.createBullet("side"), this.options.delays.fire);
+        }
+
+        this.shoot.play();
     }
 
     stopFire(): void {
@@ -179,7 +191,7 @@ class Game {
     }
 
     onMouseDown(event: MouseEvent): void {
-        this.startFire();
+        this.startFire("regular");
     }
 
     onMouseUp(event: MouseEvent): void {
@@ -192,8 +204,13 @@ class Game {
         this.keys[key] = true;
 
         if (key === Key.Space || key === Key.Up) {
-            this.startFire();
+            this.startFire("regular");
+        } else if (key === Key.A) {
+            this.startFire("side");
+        } else if (key === Key.D) {
+            this.startFire("side");
         }
+
     }
 
     onKeyUp(event: KeyboardEvent): void {
@@ -201,9 +218,9 @@ class Game {
         let key = event.keyCode || event.which;
         this.keys[key] = false;
 
-        if (key === Key.Space || key === Key.Up) {
+        if (key === Key.Space || key === Key.Up || key === Key.A || key === Key.D) {
             this.stopFire();
-        }
+        } 
     }
 
     destroy(): void {

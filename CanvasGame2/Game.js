@@ -4,6 +4,8 @@ var Key;
     Key[Key["Left"] = 37] = "Left";
     Key[Key["Up"] = 38] = "Up";
     Key[Key["Right"] = 39] = "Right";
+    Key[Key["A"] = 65] = "A";
+    Key[Key["D"] = 68] = "D";
 })(Key || (Key = {}));
 var Game = (function () {
     function Game(options, parent) {
@@ -52,17 +54,24 @@ var Game = (function () {
         clearInterval(this.targetsId);
         clearInterval(this.fireId);
     };
-    Game.prototype.startFire = function () {
+    Game.prototype.startFire = function (type) {
         if (this.fireId) {
             return;
         }
         var pg = this.playground;
-        // Create first bullet
-        pg.createBullet();
+        if (type === "regular") {
+            // Create first bullet
+            pg.createBullet("regular");
+            // Create next bullets with interval
+            clearInterval(this.fireId);
+            this.fireId = setInterval(function () { return pg.createBullet("regular"); }, this.options.delays.fire);
+        }
+        else if (type === "side") {
+            pg.createBullet("side");
+            clearInterval(this.fireId);
+            this.fireId = setInterval(function () { return pg.createBullet("side"); }, this.options.delays.fire);
+        }
         this.shoot.play();
-        // Create next bullets with interval
-        clearInterval(this.fireId);
-        this.fireId = setInterval(function () { return pg.createBullet(); }, this.options.delays.fire);
     };
     Game.prototype.stopFire = function () {
         clearInterval(this.fireId);
@@ -88,7 +97,7 @@ var Game = (function () {
         this.playground.moveGunByMouse(event);
     };
     Game.prototype.onMouseDown = function (event) {
-        this.startFire();
+        this.startFire("regular");
     };
     Game.prototype.onMouseUp = function (event) {
         this.stopFire();
@@ -97,13 +106,19 @@ var Game = (function () {
         var key = event.keyCode || event.which;
         this.keys[key] = true;
         if (key === Key.Space || key === Key.Up) {
-            this.startFire();
+            this.startFire("regular");
+        }
+        else if (key === Key.A) {
+            this.startFire("side");
+        }
+        else if (key === Key.D) {
+            this.startFire("side");
         }
     };
     Game.prototype.onKeyUp = function (event) {
         var key = event.keyCode || event.which;
         this.keys[key] = false;
-        if (key === Key.Space || key === Key.Up) {
+        if (key === Key.Space || key === Key.Up || key === Key.A || key === Key.D) {
             this.stopFire();
         }
     };
