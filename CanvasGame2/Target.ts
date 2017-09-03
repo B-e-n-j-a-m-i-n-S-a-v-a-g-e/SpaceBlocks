@@ -1,4 +1,6 @@
 ﻿class TargetOptions {
+    fillInvincible: string;
+    fillSuperShield: string;
     fillShield: string;
     fillRegular: string;
     life: {
@@ -30,12 +32,26 @@ class Target extends RectComponent {
         let ctx = this.ctx,
             opts = this.options;
 
+        switch (this.life) {
 
-        if (this.life > 1) {
-            ctx.fillStyle = opts.fillShield;
-        } else if (this.life == 1) {
-            ctx.fillStyle = opts.fillRegular;
-        } 
+            case 4:
+                ctx.fillStyle = opts.fillInvincible;
+                break;
+
+            case 3:
+                ctx.fillStyle = opts.fillSuperShield;
+                break;
+
+            case 2:
+                ctx.fillStyle = opts.fillShield;
+                break;
+
+            case 1:
+                ctx.fillStyle = opts.fillRegular;
+                break
+
+        }
+
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 

@@ -207,8 +207,11 @@ var Playground = (function () {
         ctx.restore();
     };
     Playground.prototype.checkGameOver = function () {
-        var closest = this.closestTarget;
-        this.gameOver = (closest && closest.y + closest.height >= this.gun.y);
+        for (var i = 0; i < this.targets.length; i++) {
+            if (checkCollision(this.targets[i], this.gun)) {
+                this.gameOver = true;
+            }
+        }
     };
     Playground.prototype.moveGun = function (x) {
         var gun = this.gun, xMin = 0, xMax = this.width - gun.width;

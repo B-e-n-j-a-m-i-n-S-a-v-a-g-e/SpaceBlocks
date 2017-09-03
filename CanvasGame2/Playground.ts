@@ -357,9 +357,13 @@
     }
 
     checkGameOver(): void {
-        let closest = this.closestTarget;
-        this.gameOver = (
-            closest && closest.y + closest.height >= this.gun.y);
+        
+        for (let i = 0; i < this.targets.length; i++) {
+
+            if (checkCollision(this.targets[i], this.gun)) {
+                this.gameOver = true;
+            }
+        }  
     }
 
     moveGun(x: number): void {

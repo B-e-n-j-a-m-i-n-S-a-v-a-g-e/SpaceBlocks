@@ -124,9 +124,11 @@ var Game = (function () {
         gun: { fill: 'green', aim: false },
         bullet: { fill: 'white' },
         target: {
+            fillInvincible: 'brown',
+            fillSuperShield: 'purple',
             fillShield: 'red',
             fillRegular: 'green',
-            life: { fill: 'white', max: 2 }
+            life: { fill: 'white', max: 4 }
         },
         stats: { fill: 'black' },
         star: { fill: 'white' }

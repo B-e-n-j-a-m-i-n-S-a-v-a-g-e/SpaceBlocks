@@ -490,11 +490,20 @@ var Target = (function (_super) {
     }
     Target.prototype.draw = function () {
         var ctx = this.ctx, opts = this.options;
-        if (this.life > 1) {
-            ctx.fillStyle = opts.fillShield;
-        }
-        else if (this.life == 1) {
-            ctx.fillStyle = opts.fillRegular;
+        switch (this.life) {
+
+            case 4:
+                ctx.fillStyle = opts.fillInvincible;
+                break;
+            case 3:
+                ctx.fillStyle = opts.fillSuperShield;
+                break;
+            case 2:
+                ctx.fillStyle = opts.fillShield;
+                break;
+            case 1:
+                ctx.fillStyle = opts.fillRegular;
+                break;
         }
         ctx.fillRect(this.x, this.y, this.width, this.height);
     };
