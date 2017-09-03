@@ -64,7 +64,7 @@ class Target extends RectComponent {
         if (bullet.status !== BulletStatus.None) {
             return false;
         }
-
+        
         let tLeft = this.x,
             tRight = this.x + this.width,
             tBottom = this.y + this.height;

@@ -139,13 +139,16 @@ var Playground = (function () {
             for (var j = 0; j < bulletsLen; ++j) {
                 bullet = bullets[j];
                 if (target.hitByBullet(bullet)) {
+                    //If target is invincible
                     if (target.life <= 1) {
                         this.explode.play();
                         --target.life;
                     }
                     else {
                         this.bing.play();
-                        --target.life;
+                        if (target.life !== 4) {
+                            --target.life;
+                        }
                     }
                     bullet.status = BulletStatus.Hit;
                     break;
