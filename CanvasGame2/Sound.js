@@ -1,6 +1,6 @@
 var Sound = (function () {
-    function Sound(src, elementName) {
-        this.myAudio = document.createElement(elementName);
+    function Sound(src) {
+        this.myAudio = document.createElement("audio");
         this.myAudio.src = src;
     }
     Sound.prototype.play = function () {

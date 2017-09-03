@@ -55,7 +55,7 @@ class Game {
     private canvas: HTMLCanvasElement;
 
     private playground: Playground;
-    private bing: Sound;
+    private shoot: Sound;
 
     private frameId: number;
     private targetsId: number;
@@ -73,7 +73,7 @@ class Game {
 
         this.playground = pg;
         this.canvas = pg.canvas;
-        this.bing = new Sound("audio/shoot.wav", "audio")
+        this.shoot = new Sound("audio/shoot.wav");
         this.bindMethods();
         this.newGame();
 
@@ -138,7 +138,7 @@ class Game {
 
         // Create first bullet
         pg.createBullet();
-        this.bing.play();
+        this.shoot.play();
 
         // Create next bullets with interval
         clearInterval(this.fireId);

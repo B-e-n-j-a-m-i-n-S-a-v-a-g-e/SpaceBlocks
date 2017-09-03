@@ -3,12 +3,11 @@
     private src: string;
     private myAudio: any;
 
-    constructor(src: string, elementName: string) {
+    constructor(src: string) {
 
-        this.myAudio = document.createElement(elementName);
+        this.myAudio = document.createElement("audio");
         this.myAudio.src = src;
     }
-
     play() {
         this.myAudio.play();
     }

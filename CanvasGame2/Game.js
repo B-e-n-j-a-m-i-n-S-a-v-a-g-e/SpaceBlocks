@@ -14,7 +14,7 @@ var Game = (function () {
         var pg = new Playground(this.options, this.parent);
         this.playground = pg;
         this.canvas = pg.canvas;
-        this.bing = new Sound("audio/shoot.wav", "audio");
+        this.shoot = new Sound("audio/shoot.wav");
         this.bindMethods();
         this.newGame();
     }
@@ -59,7 +59,7 @@ var Game = (function () {
         var pg = this.playground;
         // Create first bullet
         pg.createBullet();
-        this.bing.play();
+        this.shoot.play();
         // Create next bullets with interval
         clearInterval(this.fireId);
         this.fireId = setInterval(function () { return pg.createBullet(); }, this.options.delays.fire);

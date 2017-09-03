@@ -57,6 +57,7 @@ class Target extends RectComponent {
             bRight = bullet.x + bullet.radius,
             bTop = bullet.y - bullet.radius;
 
+ 
         return (
             bTop <= tBottom &&
             (

@@ -12,6 +12,8 @@ var Playground = (function () {
         this.bulletStep = perOfNum(2, this.height);
         this.bulletAccel = 1.1;
         this.starStep = perOfNum(4, this.height);
+        this.bing = new Sound("audio/bing.wav");
+        this.explode = new Sound("audio/explode.wav");
         this.createCanvas();
         this.createStats();
         this.createGun();
@@ -137,7 +139,14 @@ var Playground = (function () {
             for (var j = 0; j < bulletsLen; ++j) {
                 bullet = bullets[j];
                 if (target.hitByBullet(bullet)) {
-                    --target.life;
+                    if (target.life <= 1) {
+                        this.explode.play();
+                        --target.life;
+                    }
+                    else {
+                        this.bing.play();
+                        --target.life;
+                    }
                     bullet.status = BulletStatus.Hit;
                     break;
                 }

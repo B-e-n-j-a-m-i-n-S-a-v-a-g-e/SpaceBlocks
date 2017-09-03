@@ -25,6 +25,8 @@
     <Content Include="app.css" />
     <Content Include="app.js" />
     <Content Include="audio\bing.wav" />
+    <Content Include="audio\explode.wav" />
+    <Content Include="audio\shoot.wav" />
     <Content Include="Bullet.js" />
     <Content Include="Component.js" />
     <Content Include="Game.js" />
