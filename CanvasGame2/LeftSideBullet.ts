@@ -1,10 +1,10 @@
-﻿enum SideBulletStatus { None, Miss, Hit };
+﻿enum LeftSideBulletStatus { None, Miss, Hit };
 
-interface SideBulletOptions {
+interface LeftSideBulletOptions {
     fill: string;
 }
 
-class SideBullet extends Component {
+class LeftSideBullet extends Component {
 
     status = BulletStatus.None;
 
@@ -25,10 +25,10 @@ class SideBullet extends Component {
 
         ctx.fillStyle = opts.fill;
         ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.lineTo(this.x, this.y - 5);
-        ctx.lineTo(this.x - 10, this.y);
-        ctx.lineTo(this.x, this.y + 5);
+        ctx.moveTo(this.x, this.y + 7);
+        ctx.lineTo(this.x, this.y + 12);
+        ctx.lineTo(this.x - 10, this.y + 17);
+        ctx.lineTo(this.x, this.y + 22);
         ctx.closePath();
         ctx.closePath();
         ctx.fill();

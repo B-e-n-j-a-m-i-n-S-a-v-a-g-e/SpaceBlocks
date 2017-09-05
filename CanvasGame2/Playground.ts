@@ -17,8 +17,11 @@
     private bulletsLen: number;
     private bulletStep: number;
 
-    private sideBullets: SideBullet[];
-    private sideBulletsLen: number;
+    private leftSideBullets: LeftSideBullet[];
+    private leftSideBulletsLen: number;
+
+    private rightSideBullets: RightSideBullet[];
+    private rightSideBulletsLen: number;
 
     private targets: Target[];
     private targetsLen: number;
@@ -59,8 +62,11 @@
         this.bullets = [];
         this.bulletsLen = 0;
 
-        this.sideBullets = [];
-        this.sideBulletsLen = 0;
+        this.leftSideBullets = [];
+        this.leftSideBulletsLen = 0;
+
+        this.rightSideBullets = [];
+        this.rightSideBulletsLen = 0;
 
         this.targets = [];
         this.targetsLen = 0;
@@ -126,12 +132,19 @@
                 new Bullet(this.ctx, x, y, radius, this.options.bullet)
             );
             this.bulletsLen = bullets.length;
-        } else if (type === "side") {
+        } else {
 
-            this.sideBullets.push(
-                new SideBullet(this.ctx, x, y, radius, this.options.bullet)
-            );
-            this.sideBulletsLen = this.sideBullets.length;
+            if (type === "leftSide") {
+                this.leftSideBullets.push(
+                    new LeftSideBullet(this.ctx, x, y, radius, this.options.bullet)
+                );
+                this.leftSideBulletsLen = this.leftSideBullets.length;
+            } else if (type === "rightSide") {
+                this.rightSideBullets.push(
+                    new RightSideBullet(this.ctx, x, y, radius, this.options.bullet)
+                );
+                this.rightSideBulletsLen = this.rightSideBullets.length;
+            }
         }
     }
 
@@ -180,10 +193,10 @@
 
         this.drawGun();
         this.drawBullets();
-        this.drawSideBullets();
+        this.drawLeftSideBullets();
+        this.drawRightSideBullets();
         this.drawTargets();
         this.drawStats();
-        this.drawStars();
 
         this.checkGameOver();
         if (this.gameOver) {
@@ -221,21 +234,20 @@
 
             // Move and draw bullet
             bullet.y -= bulletStep;
-            bulletStep *= 1.1;
             bullet.draw();
         }
     }
 
-    drawSideBullets() {
+    drawLeftSideBullets() {
 
-        let sidebullets = this.sideBullets;
+        let sidebullets = this.leftSideBullets;
 
         let sideBullet,
             bulletStep = this.bulletStep;
 
-        for (let i = 0; i < this.sideBullets.length; ++i) {
-
-            sideBullet = this.sideBullets[i];
+        for (let i = 0; i < this.leftSideBullets.length; ++i) {
+            console.log(this.leftSideBullets.length);
+            sideBullet = this.leftSideBullets[i];
 
             // Skip bullets with status Hit or Miss
             if (sideBullet.status === BulletStatus.Hit ||
@@ -250,11 +262,39 @@
             }
 
             // Move and draw bullet
-            sideBullet.x -= bulletStep;
-            bulletStep *= 1.1;
+            sideBullet.x -= bulletStep;    
+            sideBullet.draw();
+
+        }
+    }
+
+    drawRightSideBullets() {
+
+        let sidebullets = this.rightSideBullets;
+
+        let sideBullet,
+            bulletStep = this.bulletStep;
+
+        for (let i = 0; i < this.rightSideBullets.length; ++i) {
+
+            sideBullet = this.rightSideBullets[i];
+
+            // Skip bullets with status Hit or Miss
+            if (sideBullet.status === BulletStatus.Hit ||
+                sideBullet.status === BulletStatus.Miss) {
+                continue;
+            }
+
+            // Set bullet status to Miss if bullet out of canvas
+            if (sideBullet.y + sideBullet.radius <= 0) {
+                sideBullet.status = BulletStatus.Miss;
+                continue;
+            }
+
+            // Move and draw bullet
+            sideBullet.x += bulletStep;
             sideBullet.draw();
         }
-
     }
 
     drawTargets(): void {
@@ -312,24 +352,6 @@
         }
 
         this.closestTarget = closestTarget;
-    }
-
-    drawStars(): void {
-
-        let stars = this.stars,
-            starsLen = this.starsLen,
-            star: Star;
-
-
-        for (let i = 0; i < starsLen; ++i) {
-
-            // Move and draw bullet
-            star.y -= this.starStep;
-            star.draw();
-        }
-
-
-
     }
 
     drawStats(): void {

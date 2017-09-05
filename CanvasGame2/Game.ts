@@ -148,9 +148,16 @@ class Game {
             // Create next bullets with interval
             clearInterval(this.fireId);
             this.fireId = setInterval(() => pg.createBullet("regular"), this.options.delays.fire);
-        } else if (type === "side") {
+        } else {
 
-            pg.createBullet("side");
+            if (type === "leftSide") {
+
+                pg.createBullet("leftSide");
+
+            } else if (type === "rightSide") {
+
+                pg.createBullet("rightSide");
+            }
 
             clearInterval(this.fireId);
             this.fireId = setInterval(() => pg.createBullet("side"), this.options.delays.fire);
@@ -206,11 +213,10 @@ class Game {
         if (key === Key.Space || key === Key.Up) {
             this.startFire("regular");
         } else if (key === Key.A) {
-            this.startFire("side");
+            this.startFire("leftSide");
         } else if (key === Key.D) {
-            this.startFire("side");
+            this.startFire("rightSide");
         }
-
     }
 
     onKeyUp(event: KeyboardEvent): void {
@@ -227,7 +233,6 @@ class Game {
         this.stopGame();
         this.playground.destroy();
     }
-
 }
 
 // Save constructor in global scope

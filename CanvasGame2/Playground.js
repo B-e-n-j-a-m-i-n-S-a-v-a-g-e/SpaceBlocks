@@ -22,8 +22,10 @@ var Playground = (function () {
         this.gameOver = false;
         this.bullets = [];
         this.bulletsLen = 0;
-        this.sideBullets = [];
-        this.sideBulletsLen = 0;
+        this.leftSideBullets = [];
+        this.leftSideBulletsLen = 0;
+        this.rightSideBullets = [];
+        this.rightSideBulletsLen = 0;
         this.targets = [];
         this.targetsLen = 0;
         this.closestTarget = null;
@@ -53,9 +55,15 @@ var Playground = (function () {
             bullets.push(new Bullet(this.ctx, x, y, radius, this.options.bullet));
             this.bulletsLen = bullets.length;
         }
-        else if (type === "side") {
-            this.sideBullets.push(new SideBullet(this.ctx, x, y, radius, this.options.bullet));
-            this.sideBulletsLen = this.sideBullets.length;
+        else {
+            if (type === "leftSide") {
+                this.leftSideBullets.push(new LeftSideBullet(this.ctx, x, y, radius, this.options.bullet));
+                this.leftSideBulletsLen = this.leftSideBullets.length;
+            }
+            else if (type === "rightSide") {
+                this.rightSideBullets.push(new RightSideBullet(this.ctx, x, y, radius, this.options.bullet));
+                this.rightSideBulletsLen = this.rightSideBullets.length;
+            }
         }
     };
     Playground.prototype.createTargets = function () {
@@ -84,10 +92,10 @@ var Playground = (function () {
         this.clear();
         this.drawGun();
         this.drawBullets();
-        this.drawSideBullets();
+        this.drawLeftSideBullets();
+        this.drawRightSideBullets();
         this.drawTargets();
         this.drawStats();
-        this.drawStars();
         this.checkGameOver();
         if (this.gameOver) {
             this.drawGameOver();
@@ -113,15 +121,15 @@ var Playground = (function () {
             }
             // Move and draw bullet
             bullet.y -= bulletStep;
-            bulletStep *= 1.1;
             bullet.draw();
         }
     };
-    Playground.prototype.drawSideBullets = function () {
-        var sidebullets = this.sideBullets;
+    Playground.prototype.drawLeftSideBullets = function () {
+        var sidebullets = this.leftSideBullets;
         var sideBullet, bulletStep = this.bulletStep;
-        for (var i = 0; i < this.sideBullets.length; ++i) {
-            sideBullet = this.sideBullets[i];
+        for (var i = 0; i < this.leftSideBullets.length; ++i) {
+            console.log(this.leftSideBullets.length);
+            sideBullet = this.leftSideBullets[i];
             // Skip bullets with status Hit or Miss
             if (sideBullet.status === BulletStatus.Hit ||
                 sideBullet.status === BulletStatus.Miss) {
@@ -134,7 +142,26 @@ var Playground = (function () {
             }
             // Move and draw bullet
             sideBullet.x -= bulletStep;
-            bulletStep *= 1.1;
+            sideBullet.draw();
+        }
+    };
+    Playground.prototype.drawRightSideBullets = function () {
+        var sidebullets = this.rightSideBullets;
+        var sideBullet, bulletStep = this.bulletStep;
+        for (var i = 0; i < this.rightSideBullets.length; ++i) {
+            sideBullet = this.rightSideBullets[i];
+            // Skip bullets with status Hit or Miss
+            if (sideBullet.status === BulletStatus.Hit ||
+                sideBullet.status === BulletStatus.Miss) {
+                continue;
+            }
+            // Set bullet status to Miss if bullet out of canvas
+            if (sideBullet.y + sideBullet.radius <= 0) {
+                sideBullet.status = BulletStatus.Miss;
+                continue;
+            }
+            // Move and draw bullet
+            sideBullet.x += bulletStep;
             sideBullet.draw();
         }
     };
@@ -179,14 +206,6 @@ var Playground = (function () {
             }
         }
         this.closestTarget = closestTarget;
-    };
-    Playground.prototype.drawStars = function () {
-        var stars = this.stars, starsLen = this.starsLen, star;
-        for (var i = 0; i < starsLen; ++i) {
-            // Move and draw bullet
-            star.y -= this.starStep;
-            star.draw();
-        }
     };
     Playground.prototype.drawStats = function () {
         var bullets = this.bullets, bulletsLen = this.bulletsLen, bulletStatus;

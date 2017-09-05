@@ -3,22 +3,22 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var SideBulletStatus;
-(function (SideBulletStatus) {
-    SideBulletStatus[SideBulletStatus["None"] = 0] = "None";
-    SideBulletStatus[SideBulletStatus["Miss"] = 1] = "Miss";
-    SideBulletStatus[SideBulletStatus["Hit"] = 2] = "Hit";
-})(SideBulletStatus || (SideBulletStatus = {}));
+var LeftSideBulletStatus;
+(function (LeftSideBulletStatus) {
+    LeftSideBulletStatus[LeftSideBulletStatus["None"] = 0] = "None";
+    LeftSideBulletStatus[LeftSideBulletStatus["Miss"] = 1] = "Miss";
+    LeftSideBulletStatus[LeftSideBulletStatus["Hit"] = 2] = "Hit";
+})(LeftSideBulletStatus || (LeftSideBulletStatus = {}));
 ;
-var SideBullet = (function (_super) {
-    __extends(SideBullet, _super);
-    function SideBullet(ctx, x, y, radius, options) {
+var LeftSideBullet = (function (_super) {
+    __extends(LeftSideBullet, _super);
+    function LeftSideBullet(ctx, x, y, radius, options) {
         _super.call(this, ctx, x, y);
         this.radius = radius;
         this.options = options;
         this.status = BulletStatus.None;
     }
-    SideBullet.prototype.draw = function () {
+    LeftSideBullet.prototype.draw = function () {
         var ctx = this.ctx, opts = this.options;
         ctx.fillStyle = opts.fill;
         ctx.beginPath();
@@ -30,6 +30,6 @@ var SideBullet = (function (_super) {
         ctx.closePath();
         ctx.fill();
     };
-    return SideBullet;
+    return LeftSideBullet;
 })(Component);
-//# sourceMappingURL=SideBullet.js.map
+//# sourceMappingURL=LeftSideBullet.js.map

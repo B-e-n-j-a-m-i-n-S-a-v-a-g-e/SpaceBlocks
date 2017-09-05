@@ -66,8 +66,13 @@ var Game = (function () {
             clearInterval(this.fireId);
             this.fireId = setInterval(function () { return pg.createBullet("regular"); }, this.options.delays.fire);
         }
-        else if (type === "side") {
-            pg.createBullet("side");
+        else {
+            if (type === "leftSide") {
+                pg.createBullet("leftSide");
+            }
+            else if (type === "rightSide") {
+                pg.createBullet("rightSide");
+            }
             clearInterval(this.fireId);
             this.fireId = setInterval(function () { return pg.createBullet("side"); }, this.options.delays.fire);
         }
@@ -109,10 +114,10 @@ var Game = (function () {
             this.startFire("regular");
         }
         else if (key === Key.A) {
-            this.startFire("side");
+            this.startFire("leftSide");
         }
         else if (key === Key.D) {
-            this.startFire("side");
+            this.startFire("rightSide");
         }
     };
     Game.prototype.onKeyUp = function (event) {

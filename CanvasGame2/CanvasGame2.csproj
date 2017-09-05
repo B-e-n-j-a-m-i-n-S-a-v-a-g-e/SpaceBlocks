@@ -30,7 +30,8 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="SideBullet.ts" />
+    <TypeScriptCompile Include="LeftSideBullet.ts" />
+    <TypeScriptCompile Include="RightSideBullet.ts" />
     <TypeScriptCompile Include="Sound.ts" />
     <TypeScriptCompile Include="Bullet.ts" />
     <TypeScriptCompile Include="Component.ts" />
