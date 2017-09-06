@@ -25,10 +25,10 @@ class Bullet extends Component {
 
         ctx.fillStyle = opts.fill;
         ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.lineTo(this.x - 5, this.y);
-        ctx.lineTo(this.x, this.y - 10);
-        ctx.lineTo(this.x + 5, this.y);
+        ctx.moveTo(this.x, this.y -10);
+        ctx.lineTo(this.x - 5, this.y - 10);
+        ctx.lineTo(this.x, this.y - 20);
+        ctx.lineTo(this.x + 5, this.y - 10);
         ctx.closePath();
         ctx.closePath();
         ctx.fill();

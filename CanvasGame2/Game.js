@@ -157,4 +157,3 @@ var Game = (function () {
 })();
 // Save constructor in global scope
 window['ShootingRange'] = Game;
-//# sourceMappingURL=Game.js.map

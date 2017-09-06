@@ -48,4 +48,3 @@ var Target = (function (_super) {
     };
     return Target;
 })(RectComponent);
-//# sourceMappingURL=Target.js.map

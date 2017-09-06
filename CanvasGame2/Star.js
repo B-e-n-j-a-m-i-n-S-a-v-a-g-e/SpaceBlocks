@@ -20,4 +20,3 @@ var Star = (function (_super) {
     };
     return Star;
 })(Component);
-//# sourceMappingURL=Star.js.map

@@ -30,4 +30,3 @@ var Gun = (function (_super) {
     };
     return Gun;
 })(RectComponent);
-//# sourceMappingURL=Gun.js.map

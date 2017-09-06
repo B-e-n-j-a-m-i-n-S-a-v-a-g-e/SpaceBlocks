@@ -24,4 +24,3 @@ var Stats = (function (_super) {
     };
     return Stats;
 })(Component);
-//# sourceMappingURL=Stats.js.map

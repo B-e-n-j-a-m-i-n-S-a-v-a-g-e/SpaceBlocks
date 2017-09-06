@@ -38,4 +38,3 @@ function checkCollision(rect1, rect2) {
         return false;
     }
 }
-//# sourceMappingURL=Utils.js.map

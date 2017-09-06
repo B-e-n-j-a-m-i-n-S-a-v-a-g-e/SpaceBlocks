@@ -22,14 +22,13 @@ var RightSideBullet = (function (_super) {
         var ctx = this.ctx, opts = this.options;
         ctx.fillStyle = opts.fill;
         ctx.beginPath();
-        ctx.moveTo(this.x + 20, this.y + 7);
-        ctx.lineTo(this.x + 20, this.y + 12);
-        ctx.lineTo(this.x + 30, this.y + 17);
-        ctx.lineTo(this.x + 20, this.y + 22);
+        ctx.moveTo(this.x + 7, this.y + 7);
+        ctx.lineTo(this.x + 7, this.y + 12);
+        ctx.lineTo(this.x + 17, this.y + 17);
+        ctx.lineTo(this.x + 7, this.y + 22);
         ctx.closePath();
         ctx.closePath();
         ctx.fill();
     };
     return RightSideBullet;
 })(Component);
-//# sourceMappingURL=RightSideBullet.js.map

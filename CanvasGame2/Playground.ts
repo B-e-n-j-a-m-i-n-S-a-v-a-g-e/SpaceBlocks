@@ -115,7 +115,7 @@
             y = Math.round(stats.y - stats.fontSize - height);
 
         this.gun = new Gun(
-            this.ctx, x, y, width, height, this.options.gun);
+            this.ctx, x, y + 30, width, height, this.options.gun);
     }
 
     createBullet(type: string): void {

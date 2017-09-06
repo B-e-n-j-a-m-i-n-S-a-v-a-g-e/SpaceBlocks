@@ -46,7 +46,7 @@ var Playground = (function () {
     Playground.prototype.createGun = function () {
         var stats = this.stats;
         var width = perOfNum(6, this.width), height = perOfNum(6, this.width), x = Math.round((this.width / 2) - (width / 2)), y = Math.round(stats.y - stats.fontSize - height);
-        this.gun = new Gun(this.ctx, x, y, width, height, this.options.gun);
+        this.gun = new Gun(this.ctx, x, y + 30, width, height, this.options.gun);
     };
     Playground.prototype.createBullet = function (type) {
         var gun = this.gun, bullets = this.bullets;
@@ -275,4 +275,3 @@ var Playground = (function () {
     };
     return Playground;
 })();
-//# sourceMappingURL=Playground.js.map

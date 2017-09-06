@@ -20,4 +20,3 @@ var RectComponent = (function (_super) {
     }
     return RectComponent;
 })(Component);
-//# sourceMappingURL=Component.js.map

@@ -25,10 +25,10 @@ class LeftSideBullet extends Component {
 
         ctx.fillStyle = opts.fill;
         ctx.beginPath();
-        ctx.moveTo(this.x, this.y + 7);
-        ctx.lineTo(this.x, this.y + 12);
+        ctx.moveTo(this.x - 3, this.y + 7);
+        ctx.lineTo(this.x - 3, this.y + 12);
         ctx.lineTo(this.x - 10, this.y + 17);
-        ctx.lineTo(this.x, this.y + 22);
+        ctx.lineTo(this.x - 3, this.y + 22);
         ctx.closePath();
         ctx.closePath();
         ctx.fill();

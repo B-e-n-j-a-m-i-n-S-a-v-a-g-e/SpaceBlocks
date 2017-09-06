@@ -8,4 +8,3 @@ var Sound = (function () {
     };
     return Sound;
 })();
-//# sourceMappingURL=Sound.js.map
