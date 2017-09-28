@@ -168,6 +168,8 @@ var Playground = (function () {
     Playground.prototype.drawTargets = function () {
         var targets = this.targets, targetsLen = this.targetsLen, target;
         var bullets = this.bullets, bulletsLen = this.bulletsLen, bullet;
+        var leftSideBullets = this.leftSideBullets, leftSideBulletsLen = this.leftSideBulletsLen, leftSideBullet;
+        var rightSideBullets = this.rightSideBullets, rightSideBulletsLen = this.rightSideBulletsLen, rightSideBullet;
         var closestTarget = targets[0];
         for (var i = 0; i < targetsLen; ++i) {
             target = targets[i];
@@ -178,6 +180,51 @@ var Playground = (function () {
             // Check if bullet hit target
             for (var j = 0; j < bulletsLen; ++j) {
                 bullet = bullets[j];
+                if (target.hitByBullet(bullet)) {
+                    //If target is invincible
+                    if (target.life <= 1) {
+                        this.explode.play();
+                        --target.life;
+                    }
+                    else {
+                        if (target.life === 4) {
+                            this.invincible.play();
+                        }
+                        else {
+                            this.bing.play();
+                            --target.life;
+                        }
+                    }
+                    bullet.status = BulletStatus.Hit;
+                    break;
+                }
+            }
+            /**
+            for (let j = 0; j < leftSideBulletsLen; ++j) {
+                bullet = leftSideBullets[j];
+                if (target.hitByBullet(bullet)) {
+                    
+                    //If target is invincible
+
+                    if (target.life <= 1) {
+                        this.explode.play();
+                        --target.life;
+                    }
+                    else {
+                        if (target.life === 4) {
+                            this.invincible.play();
+                        } else {
+                            this.bing.play();
+                            --target.life;
+                        }
+                    }
+                    bullet.status = BulletStatus.Hit;
+                    break;
+                }
+            }
+            **/
+            for (var j = 0; j < rightSideBulletsLen; ++j) {
+                bullet = rightSideBullets[j];
                 if (target.hitByBullet(bullet)) {
                     //If target is invincible
                     if (target.life <= 1) {

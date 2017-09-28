@@ -307,6 +307,14 @@
             bulletsLen = this.bulletsLen,
             bullet: Bullet;
 
+        let leftSideBullets = this.leftSideBullets,
+            leftSideBulletsLen = this.leftSideBulletsLen,
+            leftSideBullet: LeftSideBullet;
+
+        let rightSideBullets = this.rightSideBullets,
+            rightSideBulletsLen = this.rightSideBulletsLen,
+            rightSideBullet: RightSideBullet;
+
         let closestTarget = targets[0];
 
         for (let i = 0; i < targetsLen; ++i) {
@@ -332,6 +340,52 @@
                     else {
                         if (target.life === 4) {
                             this.invincible.play();                        
+                        } else {
+                            this.bing.play();
+                            --target.life;
+                        }
+                    }
+                    bullet.status = BulletStatus.Hit;
+                    break;
+                }
+            }
+            /**
+            for (let j = 0; j < leftSideBulletsLen; ++j) {
+                bullet = leftSideBullets[j];
+                if (target.hitByBullet(bullet)) {
+                    
+                    //If target is invincible
+
+                    if (target.life <= 1) {
+                        this.explode.play();
+                        --target.life;
+                    }
+                    else {
+                        if (target.life === 4) {
+                            this.invincible.play();
+                        } else {
+                            this.bing.play();
+                            --target.life;
+                        }
+                    }
+                    bullet.status = BulletStatus.Hit;
+                    break;
+                }
+            }
+            **/
+            for (let j = 0; j < rightSideBulletsLen; ++j) {
+                bullet = rightSideBullets[j];
+                if (target.hitByBullet(bullet)) {
+                    
+                    //If target is invincible
+
+                    if (target.life <= 1) {
+                        this.explode.play();
+                        --target.life;
+                    }
+                    else {
+                        if (target.life === 4) {
+                            this.invincible.play();
                         } else {
                             this.bing.play();
                             --target.life;
